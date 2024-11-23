@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtoohlmer0vge"]
+
+[ext_resource type="PackedScene" uid="uid://y75tlua5xryd" path="res://scenes/player.tscn" id="1_1uxsj"]
+[ext_resource type="Texture2D" uid="uid://b4i8t8vn45q6n" path="res://free version/free 18 icons.png" id="2_f48k3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phuoi"]
+size = Vector2(570, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rj12t"]
+radius = 17.2627
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bfi0"]
+atlas = ExtResource("2_f48k3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jvscp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bfi0")
+}],
+"loop": true,
+"name": &"donut",
+"speed": 5.0
+}]
+
+[node name="game" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(288, 289)
+shape = SubResource("RectangleShape2D_phuoi")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = 4.0
+offset_top = 280.0
+offset_right = 570.0
+offset_bottom = 298.0
+
+[node name="player" parent="." instance=ExtResource("1_1uxsj")]
+position = Vector2(4, -11)
+
+[node name="Donut" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Donut"]
+position = Vector2(283, 235)
+shape = SubResource("CircleShape2D_rj12t")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Donut"]
+position = Vector2(284, 236)
+sprite_frames = SubResource("SpriteFrames_jvscp")
+animation = &"donut"
+
+[connection signal="body_entered" from="Donut" to="player" method="_on_donut_body_entered"]
